@@ -2,6 +2,9 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
+// router files
+const productsRouter = require('./routes/products.js')
+
 const app = express();
 
 // middlewares
@@ -16,6 +19,11 @@ app.get("/", (req,res)=>{
         "message":"Welcomem to the API"
     })
 })
+
+// Register the product routers
+// if a request which URL begins with '/api/products',
+// the remainder of the URL will be sent to productsRouter
+app.use('/api/products', productsRouter)
 
 // we can specify the PORT in the .env file
 // PORT => virtual port, usually meant for networking
