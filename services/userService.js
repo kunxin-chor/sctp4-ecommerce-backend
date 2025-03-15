@@ -40,7 +40,8 @@ async function getUserDetailsById(userId) {
         name: user.name,
         email: user.email,
         salutation: user.salutation ,
-        id: user.id
+        id: user.id,
+        country: user.country
     };
 }
 
