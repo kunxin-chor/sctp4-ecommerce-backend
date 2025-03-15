@@ -3,6 +3,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 
 const userService = require('../services/userService');
+const AuthenticateWithJWT = require('../middlewares/AuthenticateWithJWT');
 
 
 router.post('/register', async (req, res) => {
@@ -32,14 +33,14 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     const user = await userService.loginUser(req.body.email, req.body.password);
-    
+
     // the first parameter of jwt.sign is the payload or 'claims'
     // the second parameter is the JWT_SECRET
     // the third parameter is the options
-    const token = jwt.sign({  
-        'userId': user.id  
+    const token = jwt.sign({
+        'userId': user.id
     }, process.env.JWT_SECRET, {
-        expiresIn:'1h'
+        expiresIn: '1h'
     })
     res.json({
         'message': 'Login successful!',
@@ -48,19 +49,40 @@ router.post('/login', async (req, res) => {
     })
 })
 
-router.put('/me', (req, res) => {
+// user profile route: display the profile of the updated user
+router.get('/me', AuthenticateWithJWT, async (req, res) => {
+    const user = await userService.getUserDetailsById(req.userId);
     res.json(
         {
-            'message': 'Update user'
+            'user': user
         }
     )
 })
 
-router.delete('/:id', (req, res) => {
-    res.json({
-        'message': 'delete yser'
-    }
+// user profile route: update the profile of the updated user
+router.put('/me', AuthenticateWithJWT, (req, res) => {
+    userService.updateUserDetails(req.userId, req.body);
+    res.json(
+        {
+            'message': 'User profile updated'
+        }
     )
+})
+
+router.delete('/:id', AuthenticateWithJWT, async (req, res) => {
+    try {
+        await userService.deleteUser(req.userId);
+        res.json({
+            'message': 'User has been deleted'
+        })
+    } catch (e) {
+        console.log(e)
+        res.json({
+            'message': 'error deleteing user'
+        })
+    }
+
+
 })
 
 module.exports = router;

@@ -30,6 +30,39 @@ async function loginUser(email, password) {
 
 }
 
+async function getUserDetailsById(userId) {
+    // todo: business rules
+    // - legal (like age)
+    // - security (redact)
+    // - marketing 
+    const user = await userData.getUserById(userId);
+    return {
+        name: user.name,
+        email: user.email,
+        salutation: user.salutation ,
+        id: user.id
+    };
+}
+
+async function updateUserDetails(id, userDetails) {
+    return await userData.updateUser(id,
+        userDetails.name,
+        userDetails.email,
+        userDetails.salutation,
+        userDetails.country,
+        userDetails.marketingPreferences
+
+    )
+}
+
+async function deleteUser(id) {
+    return await userData.deleteUser(id);
+}
+
 module.exports = {
-    registerUser, loginUser
+    registerUser, 
+    loginUser, 
+    getUserDetailsById,
+    updateUserDetails,
+    deleteUser
 }
