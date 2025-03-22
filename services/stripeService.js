@@ -3,7 +3,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 async function createCheckoutSession(userId, orderItems, orderId) {
     const lineItems = createLineItems(orderItems);
-    
+    console.log("lineItems =>", lineItems);
     // 2nd parameter of stripe.checkout.sessions.create is the configuration of checkout
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'], 
@@ -23,7 +23,8 @@ async function createCheckoutSession(userId, orderItems, orderId) {
     return session;
 }
 
-async function createLineItems(orderItems) {
+function createLineItems(orderItems) {
+ 
     const lineItems =  [];
     for (let item of orderItems) {
         // structure of a line item in Stripe
@@ -42,8 +43,9 @@ async function createLineItems(orderItems) {
             },
             'quantity': item.quantity
         }
-        itemItems.push(lineItem);
+        lineItems.push(lineItem);
     }
+
     return lineItems;
 }
 

@@ -4,7 +4,6 @@ const cartService = require('../services/cartService');
 const AuthenticateWithJWT = require('../middlewares/AuthenticateWithJWT');
 
 
-
 // GET cart contents
 router.get('/', [AuthenticateWithJWT],  async (req, res) => {
   try {

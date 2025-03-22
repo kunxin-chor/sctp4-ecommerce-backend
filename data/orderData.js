@@ -10,9 +10,9 @@ async function getOrdersByUserId(userId) {
 // - product_id : which product it is for
 // - quantity: how many to buy
 async function createOrder(userId, orderItems) {
-
+    const connection = await pool.getConnection();
     try {
-        const connection = await pool.getConnection();
+        
         await connection.beginTransaction();
 
         // calculate the total of the order

@@ -10,6 +10,7 @@ router.post('/', AuthenticateWithJWT, async (req, res) => {
         const session = await checkoutService.checkout(req.userId);
         res.json(session);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: error.message });
     }
 });
