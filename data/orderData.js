@@ -37,6 +37,7 @@ async function createOrder(userId, orderItems) {
 
         // make all changes to the database so far permanent
         await connection.commit();
+        return orderId;
 
     } catch (e) {
         await connection.rollback();

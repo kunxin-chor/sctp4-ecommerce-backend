@@ -9,8 +9,8 @@ async function createCheckoutSession(userId, orderItems, orderId) {
         payment_method_types: ['card'], 
         line_items: lineItems,
         mode: 'payment',
-        success_url: "https://www.google.com",
-        cancel_url:"https://www.yahoo.com",
+        success_url: "https://5173-kunxinchor-sctp4ecommer-3sjzqd3pacu.ws-us118.gitpod.io/success_payment",
+        cancel_url:"https://5173-kunxinchor-sctp4ecommer-3sjzqd3pacu.ws-us118.gitpod.io/cancelled_payment",
         // store customized data which stripe doesn't provide for in metadata
         metadata: {
             userId: userId,
